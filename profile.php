@@ -131,25 +131,15 @@
 </head>
 <body style="font-family: tahoma; background-color:#e9ebee;">
     <!--top bar-->
-    <div id="blue_bar">
-        <div style="margin: auto; font-size: 30px; ;">
-            Codebook <input type="text" id="search_box" placeholder="Search for connection">
-            <a href="index.php"><div id="menu_button">Timeline</div></a>
-            <div id="menu_button">About</div>
-            <div id="menu_button">Friend</div>
-            <div id="menu_button">Photos</div>
-            <div id="menu_button">Settings</div>
-
-            <img src="social images/profile.jpg" style="width: 50px; float: right;">
-            <a href="logout.php">
-                <span style="font-size:11px; float:right; margin: 10px;color:white;">Logout</span>
-            </a>
-            </div>
-    </div>
+    <?php include("header.php");?>
     <div style="width: 800px; margin: auto;   min-height:  400px; position: relative;">
         <div style="background-color:  white; text-align: left; color: black; border:black;">
             <img src="social images/background profile img.jpg" style="width: 100%;">
-            <img src="social images/profile.jpg" id="profile_pic">
+            <span>
+                <img style="font-size: 12px;" src="social images/profile.jpg" id="profile_pic">
+                <br/>
+                <a style="text-decoration: none; color:f0f; margin: 4px;" href="change_profile_image.php">change Image </a>
+            </span>
             <br>
                 <div style="font-size: 20px; color:black;margin: 4px;">
                     <?php echo $user_data['first_name']. " ". $user_data['last_name']?> 

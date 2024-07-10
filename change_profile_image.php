@@ -14,31 +14,11 @@
     //posting starts here 
     if($_SERVER['REQUEST_METHOD'] == "POST")
     {
-        $post = new Post();
-        $id = $_SESSION['codebook_userid'];
-        $result = $post->create_post($id, $_POST);
-        if($result == "")
-        {
-            header("Location: profile.php");
-            die;
-        }else
-        {
-            echo "<div style= 'text-align:center; font-size:12px; color: black'>";
-            echo "the following errors occured: <br>";
-            echo $result;
-            echo "</div>";
-        }        
-    }
-    // collect posts
-    $post = new Post();
-    $id = $_SESSION['codebook_userid'];
-    $posts = $post->get_posts($id);
-
-    //collect friends
-    $user = new User();
-    $id = $_SESSION['codebook_userid'];
-    
-    $friends = $user->get_friends($id);
+        echo "<pre>";
+        print_r(($_POST));
+        print_r($_FILES);
+        echo "</pre>";
+    }   
     
 ?>
 <!DOCTYPE html>
@@ -46,7 +26,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Change Profile Image</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style type="text/css">
         #blue_bar{
@@ -68,7 +48,7 @@
         }
         #profile_pic{
             width: 150px;
-            margin-top: 4px;
+            margin-top: -100px;
             border-radius: 50%;
             border: solid 1px white;
             margin-left:4px;
@@ -86,7 +66,7 @@
             margin: 8px;
         }
         #friends_bar{
-            background-color: #e9ebee;
+            background-color: white;
             min-height: 400px;
             margin-top: 20px;
             color: 8px;
@@ -135,50 +115,20 @@
     <?php include("header.php");?>
 
     <div style="width: 800px; margin: auto;   min-height:  400px; position: relative;">
-        
         <div style="display: flex;">
-            <div style=" min-height: 400px; flex: 1">
-                <div id="friends_bar">
-                <img src="social images/profile.jpg" id="profile_pic">
-                <br>
-                <div style="font-size: 20px; color:rgb(59, 89, 152 );margin: 4px;">
-                    <?php echo $user_data['first_name'] ."<br>". $user_data['last_name']?> 
-                </div>
-            <br> 
-                    
-                </div>
-            </div>
+        
             <!--posts area-->
             <div style="min-height: 400px; flex: 2.5; padding: 20px; padding-right: 0px;">
-                <div style="border: solid thin #aaa; padding: 10px; background-color: white;">
-                    <form method="POST" action="profile.php">
-                        <textarea name="post" placeholder="What's in you mind"></textarea>
+                <form method="POST" enctype="multipart/form-data">
+                    <div style="border: solid thin #aaa; padding: 10px;background-color:white;">
+                        <input type="file" name="file">
                         <input id="post_button" type="submit" value="Post">
-                        <br><br>
-                    </form>
+                        <br>
+                    </div>
                     
-                </div>
-                <div id="post_bar">
-                    <!--post1-->
-                    <?php
-                        if($posts)
-                        {
-                            foreach($posts as $ROW)
-                            {
-                                $user = new User();
-                                $ROW_USER = $user->get_user($ROW['userid']);
-                                include("post.php");
-                            }
-                        }
-                       
-                    ?> 
-
-                </div>
+                </form>        
             </div>
-
         </div>
-
-
     </div>
 </body>
 </html>
