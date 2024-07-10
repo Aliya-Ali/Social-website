@@ -7,35 +7,9 @@
     include("classes/user.php");
     include("classes/post.php");
 
-    //check if user is logged in
-    if(isset($_SESSION['codebook_userid']) && is_numeric($_SESSION['codebook_userid']))
-    {
-        $id = $_SESSION['codebook_userid'];
-        $login = new Login();
-        $result = $login->check_login($id);
-        
-        if($result)
-        {
-            //retrieve the data
-            $user = new User();
-            $user_data = $user->get_data($id);
-            if(!$user_data)
-            {
-                header("Location: login.php");
-                die;
-            }
-            
-        }else
-        {
-            header("Location: login.php");
-            die;
-        }
-    }else
-    {
-        header("Location: login.php");
-        die;
-    }
 
+    $login = new Login();
+    $user_data = $login->check_login($_SESSION['codebook_userid']);
     //posting starts here 
     if($_SERVER['REQUEST_METHOD'] == "POST")
     {
@@ -54,9 +28,17 @@
             echo "</div>";
         }        
     }
+    // collect posts
     $post = new Post();
     $id = $_SESSION['codebook_userid'];
     $posts = $post->get_posts($id);
+
+    //collect friends
+    $user = new User();
+    $id = $_SESSION['codebook_userid'];
+    
+    $friends = $user->get_friends($id);
+    
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -68,7 +50,7 @@
     <style type="text/css">
         #blue_bar{
             height: 50px;
-            background-color: grey;
+            background-color: rgb(59, 89, 152 );
             color: white;
         }
         #search_box{
@@ -113,7 +95,7 @@
             clear: both;
             font-size: 12px;
             font-weight: bold;
-            color: black;  
+            color: rgb(59, 89, 152 );  
         }
         textarea{
             width: 100%;
@@ -124,7 +106,7 @@
         }
         #post_button{
             float: right;
-            background-color: black;
+            background-color: rgb(59, 89, 152 );
             border: none;
             border-radius: 2px;
             padding: 4px;
@@ -147,12 +129,12 @@
         }
     </style>
 </head>
-<body style="font-family: tahoma; background-color:lightgray;">
+<body style="font-family: tahoma; background-color:#e9ebee;">
     <!--top bar-->
     <div id="blue_bar">
         <div style="margin: auto; font-size: 30px; ;">
             Codebook <input type="text" id="search_box" placeholder="Search for connection">
-            <div id="menu_button">Timeline</div>
+            <a href="index.php"><div id="menu_button">Timeline</div></a>
             <div id="menu_button">About</div>
             <div id="menu_button">Friend</div>
             <div id="menu_button">Photos</div>
@@ -169,7 +151,9 @@
             <img src="social images/background profile img.jpg" style="width: 100%;">
             <img src="social images/profile.jpg" id="profile_pic">
             <br>
-                <div style="font-size: 20px; color:black;margin: 4px;"><?php echo $user_data['first_name']. " ". $user_data['last_name']?> </div>
+                <div style="font-size: 20px; color:black;margin: 4px;">
+                    <?php echo $user_data['first_name']. " ". $user_data['last_name']?> 
+                </div>
             <br>
             
         </div>
@@ -177,26 +161,18 @@
             <div style=" min-height: 400px; flex: 1">
                 <div id="friends_bar">
                     Friends <br>
-                    <div id="friends">
-                        <img id="friends_img" src="social images/user1.jpg" alt="">
-                        <br>
-                        First user
-                    </div>
-                    <div id="friends">
-                        <img id="friends_img" src="social images/user2.jpg" alt="">
-                        <br>
-                        Second user
-                    </div>
-                    <div id="friends">
-                        <img id="friends_img" src="social images/user3.jpg" alt="">
-                        <br>
-                        Third user
-                    </div>
-                    <div id="friends">
-                        <img id="friends_img" src="social images/user4.jpg" alt="">
-                        <br>
-                        Fourth user
-                    </div>
+                    <?php
+                        if($friends)
+                        {
+                            foreach($friends as $FRIEND_ROW)
+                            {
+                                
+                                include("user.php");
+                            }
+                        }
+                       
+                    ?>
+                    
                 </div>
             </div>
             <!--posts area-->
@@ -214,13 +190,15 @@
                     <?php
                         if($posts)
                         {
-                            foreach($posts as $row)
+                            foreach($posts as $ROW)
                             {
+                                $user = new User();
+                                $ROW_USER = $user->get_user($ROW['userid']);
                                 include("post.php");
                             }
                         }
                        
-                    ?>
+                    ?> 
 
                 </div>
             </div>

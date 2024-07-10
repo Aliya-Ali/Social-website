@@ -16,4 +16,30 @@ class User
             return false;
         }
     }
+    public function get_user($id)
+    {
+        $query = "select * from user where userid = '$id' limit 1";
+        $db = new DataBase();
+        $result = $db->read($query);
+        if ($result){
+            return $result[0];
+        }else
+        {
+            return false;
+        }
+
+    }
+    public function get_friends($id)
+    {
+        $query = "select * from user where userid != '$id' ";
+        $db = new DataBase();
+        $result = $db->read($query);
+        if ($result){
+            return $result;
+        }else
+        {
+            return false;
+        }
+
+    }
 }

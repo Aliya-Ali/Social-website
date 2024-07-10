@@ -1,12 +1,24 @@
 <div id="post">
     <div>
-        <img  style="width: 75px;margin-right: 4px;" src="social images/user1.jpg" alt="">
+        <?php
+            $image = "social images/images/female.jpg";
+            if ($ROW_USER['gender'] == "Male")
+            {
+                $image = "social images/images/male.jpg";
+            }
+        ?>
+        <img  style="width: 75px;margin-right: 4px;" src="<?php echo $image?>" alt="">
     </div>
     <div>
-    <div style="font-weight: bold;color: black; ">First Friend</div>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Hic aperiam impedit doloribus minus, nemo voluptatem architecto facere corrupti, veniam natus unde sit incidunt aspernatur dolores officiis consequatur modi itaque. Id.
+    <div style="font-weight: bold;color: rgb(59, 89, 152 ) ">
+    <?php echo $ROW_USER['first_name'] . " ". $ROW_USER['last_name'];?>
+    </div>
+        <?php echo $ROW['post']; ?>
         <br><br>
-        <a href="">Like</a>. <a href="">Comment</a><span style="color: #999;">July 6 2024</span>
+        <a href="">Like</a>. <a href="">Comment</a>
+        <span style="color: #999;">
+            <?php echo $ROW['date']?>
+        </span>
 
     </div>
 

@@ -37,12 +37,12 @@
     <style>
         #bar{
             height: 100px; 
-            background-color: grey; 
+            background-color: rgb(59, 89, 152 ); 
             color: white; 
             padding: 4px;
         }
         #Signup_button{
-            background-color:black;
+            background-color: #42b721;
             width: 70px;
             text-align: center;
             padding: 4px;
@@ -75,12 +75,12 @@
             border-radius: 4px;
             font-weight: bold;
             border: none;
-            background-color: black;
+            background-color: rgb(59, 89, 152 );
             color: white;
         }
     </style>
 </head>
-<body style="font-family: tahoma; background-color: lightgrey;">
+<body style="font-family: tahoma; background-color: #e9ebee;">
     <div id="bar" >
         
         <div style="font-size: 40px; margin:4px; color:white;">Codebook</div>
